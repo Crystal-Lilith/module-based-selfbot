@@ -52,7 +52,7 @@ async def on_message(msg):
             print("Channel added to enabled channels list")
     elif msg.author.id not in config.allowed_ids+[bot.user.id] and msg.content == '/disable_channel' and msg.channel in enabled_channels:
         enabled_channels.pop(enabled_channels.index(msg.channel))
-    if msg.author.id not in bot.user.id:
+    if msg.author.id not in config.allowed_ids+[bot.user.id]:
         if config.enabled_by_default != True:
             return
     try:
