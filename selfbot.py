@@ -9,18 +9,19 @@ from importlib import import_module # Using importlib's `import_module` function
 
 bot = Client()
 
-
 commands = {}
 for file in import_module('os').listdir(import_module('os').path.join('.', 'cmds')):
-    cmd = import_module("cmds."+file)
-    # The following code is going to check if the command is valid, if it is, then register it
-    if not isinstance(cmd.aliases, list):
-        print("Command alias is not a list, skipping "+file)
-    if not isinstance(cmd.aliases, str):
-        print("Command alias is not a string, skipping "+file)
-    for alias in cmd.aliases:
-        commands[alias] = {"code":cmd.code, "alias":True, "original_name":cmd.name}
-    commands[cmd.name] = {"code":cmd.code, "alias":False, "original_name":cmd.name}
+    if file.endswith('.py'):
+        cmd = import_module("cmds."+file[:-3])
+        # The following code is going to check if the command is valid, if it is, then register it
+        if not isinstance(cmd.aliases, list):
+            print("Command alias is not a list, skipping "+file)
+        elif not isinstance(cmd.name, str):
+            print("Command name is not a string, skipping "+file)
+        if (isinstance(cmd.aliases, list) and isinstance(cmd.name, str)):
+            for alias in cmd.aliases:
+                commands[alias] = {"code":cmd.code, "alias":True, "original_name":cmd.name}
+            commands[cmd.name] = {"code":cmd.code, "alias":False, "original_name":cmd.name}
 
 
 enabled_channels = []

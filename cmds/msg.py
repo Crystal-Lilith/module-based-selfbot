@@ -1,3 +1,8 @@
+from discord import Embed
+
+name = "msg"
+aliases = []
+
 async def code(msg):
     try:
         int(msg.args[0])
@@ -16,7 +21,7 @@ async def code(msg):
     for x in range(int(args[0])):
         try:
             if msg.args[2].lower() == "embed":
-                await msg.channel.send(embed=discord.Embed(title=f"{str((int(msg.args[0]) - x) - 1)} times left", description=str(args[1])))
+                await msg.channel.send(embed=Embed(title=f"{str((int(msg.args[0]) - x) - 1)} times left", description=str(args[1])))
                 await sleep(delay)
             elif msg.args[2].lower() == "eval":
                 msg.args[1] = eval('''f"""'''+str(args[1])+'''"""''')
